@@ -1,19 +1,37 @@
-import { API } from '../config';
+import { API } from "../config";
 
 export const signup = (user) => {
   // console.log(name, email, password);
   return fetch(`${API}/signup`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(user)
+    body: JSON.stringify(user),
   })
-  .then(response => {
-    return response.json();
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const signin = (user) => {
+  // console.log(name, email, password);
+  return fetch(`${API}/signin`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
   })
-  .catch(err => {
-    console.log(err);
-  });
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
