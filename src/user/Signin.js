@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Layout from "../core/Layout";
 import { signin } from "../auth/index";
 
@@ -46,7 +46,7 @@ const Signin = () => {
     });
   };
 
-  const signUpForm = () => (
+  const signInForm = () => (
     <form>
       <div className="form-group">
         <label className="text-muted">Email</label>
@@ -103,7 +103,8 @@ const Signin = () => {
     >
       {showLoading()}
       {showError()}
-      {signUpForm()}
+      {signInForm()}
+      {redirectUser()}
     </Layout>
   );
 };
