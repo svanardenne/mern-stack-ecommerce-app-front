@@ -14,6 +14,7 @@ const Signin = () => {
 
   // Deconstruct values from state
   const { email, password, error, loading, redirectToReferrer } = values;
+
   const { user } = isAuthenticated();
 
   const handleChange = (name) => (event) => {
@@ -95,10 +96,13 @@ const Signin = () => {
   const redirectUser = () => {
     if (redirectToReferrer) {
       if (user && user.role === 1) {
-        return <Redirect to="/admin/Dashboard" />;
+        return <Redirect to="/admin/dashboard" />;
       } else {
         return <Redirect to="/user/dashboard" />;
       }
+    }
+    if (isAuthenticated()) {
+      return <Redirect to="/" />;
     }
   };
 
