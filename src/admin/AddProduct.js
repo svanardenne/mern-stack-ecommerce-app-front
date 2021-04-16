@@ -47,8 +47,12 @@ const AddProduct = () => {
     setValues({ ...values, [name]: value });
   };
 
+  const clickSubmit = (e) => {
+    //
+  };
+
   const newPostForm = () => (
-    <form className="mb-3">
+    <form className="mb-3" onSubmit={clickSubmit}>
       <h4>Post Photo</h4>
       <div className="form-group">
         <label className="btn btn-secondary">
