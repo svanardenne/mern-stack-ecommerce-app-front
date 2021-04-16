@@ -13,9 +13,8 @@ const AddCategory = () => {
   const { user, token } = isAuthenticated();
 
   const handleChange = (e) => {
-    const value = e.target.value;
     setError("");
-    setName(value.charAt(0).toUpperCase() + value.slice(1));
+    setName(e.target.value);
   };
 
   const clickSubmit = (e) => {
