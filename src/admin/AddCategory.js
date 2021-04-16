@@ -26,7 +26,7 @@ const AddCategory = () => {
       if (data.error) {
         setError(true);
       } else {
-        setError("");
+        setError(false);
         setSuccess(true);
       }
     });
