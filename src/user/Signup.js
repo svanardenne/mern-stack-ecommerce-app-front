@@ -27,7 +27,17 @@ const Signup = () => {
     event.preventDefault();
     setValues({ ...values, error: false });
     signup({ name, email, password }).then((data) => {
-      if (data.error) {
+      if (data.err) {
+        setValues({
+          ...values,
+          error:
+            data.err
+              .slice(data.err.lastIndexOf(":") + 1)
+              .charAt(1)
+              .toUpperCase() + data.err.slice(data.err.lastIndexOf(":") + 3),
+          success: false,
+        });
+      } else if (data.error) {
         setValues({
           ...values,
           error: data.error,
