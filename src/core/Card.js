@@ -1,6 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import ShowImage from "./ShowImage";
+
+const Button = styled.button`
+  border-radius: 0px;
+`;
 
 const Card = ({ product }) => {
   return (
@@ -12,13 +17,13 @@ const Card = ({ product }) => {
           <p>{product.description}</p>
           <p>${product.price}</p>
           <Link to="/">
-            <button className="btn btn-outline-primary mt-2 mb-2">
+            <Button className="btn btn-outline-primary mt-2 mb-2 mr-2">
               View Product
-            </button>
+            </Button>
           </Link>
-          <button className="btn btn-outline-warning mt-2 mb-2">
+          <Button className="btn btn-outline-warning mt-2 mb-2">
             Add to Card
-          </button>
+          </Button>
         </div>
       </div>
     </div>
