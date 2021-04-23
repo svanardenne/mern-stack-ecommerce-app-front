@@ -128,8 +128,13 @@ const AddProduct = () => {
       <div className="form-group">
         <label className="text-muted">Category</label>
         <select onChange={handleChange("category")} className="form-control">
-          <option value="6079d2e79b1a744cf9e905e4">Python</option>
-          <option value="6079d2e79b1a744cf9e905e4">PHP</option>
+          <option>Please select</option>
+          {categories &&
+            categories.map((c, i) => (
+              <option key={i} value={c._id}>
+                {c.name}
+              </option>
+            ))}
         </select>
       </div>
 
