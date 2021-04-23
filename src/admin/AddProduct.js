@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
-import createProduct from "./apiAdmin";
+import { createProduct } from "./apiAdmin";
 import { Link } from "react-router-dom";
 
 const AddProduct = () => {
@@ -20,6 +20,9 @@ const AddProduct = () => {
     redirectToProfile: false,
     formData: "",
   });
+
+  // for user authentication
+  const { user, token } = isAuthenticated();
 
   // destructure state
   const {
@@ -48,7 +51,24 @@ const AddProduct = () => {
   };
 
   const clickSubmit = (e) => {
-    //
+    e.preventDefault();
+    setValues({ ...values, error: "", loading: true });
+    createProduct(user._id, token, formData).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          name: "",
+          description: "",
+          photo: "",
+          price: "",
+          quantity: "",
+          loading: false,
+          createdProduct: data.name,
+        });
+      }
+    });
   };
 
   const newPostForm = () => (
@@ -98,6 +118,7 @@ const AddProduct = () => {
         <label className="text-muted">Category</label>
         <select onChange={handleChange("category")} className="form-control">
           <option value="6079d2e79b1a744cf9e905e4">Python</option>
+          <option value="6079d2e79b1a744cf9e905e4">PHP</option>
         </select>
       </div>
 
@@ -122,8 +143,6 @@ const AddProduct = () => {
       <button className="btn btn-outline-primary">Create Product</button>
     </form>
   );
-
-  const { user, token } = isAuthenticated();
 
   return (
     <Layout
