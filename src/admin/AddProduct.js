@@ -141,6 +141,7 @@ const AddProduct = () => {
       <div className="form-group">
         <label className="text-muted">Shipping</label>
         <select onChange={handleChange("shipping")} className="form-control">
+          <option>Please select</option>
           <option value="0">No</option>
           <option value="1">Yes</option>
         </select>
@@ -160,13 +161,43 @@ const AddProduct = () => {
     </form>
   );
 
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? "" : "none" }}
+    >
+      {error}
+    </div>
+  );
+
+  const showSuccess = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: createdProduct ? "" : "none" }}
+    >
+      <h2>{`${createdProduct} is created!`}</h2>
+    </div>
+  );
+
+  const showLoading = () =>
+    loading && (
+      <div className="alert alert-success">
+        <h2>Loading...</h2>
+      </div>
+    );
+
   return (
     <Layout
       title="Add a new product"
       description={`Hello ${user.name}, ready to add a new product?`}
     >
       <div className="row">
-        <div className="col-md-8 offset-md-2">{newPostForm()}</div>
+        <div className="col-md-8 offset-md-2">
+          {newPostForm()}
+          {showLoading()}
+          {showSuccess()}
+          {showError()}
+        </div>
       </div>
     </Layout>
   );
