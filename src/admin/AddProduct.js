@@ -58,7 +58,7 @@ const AddProduct = () => {
   const handleChange = (name) => (e) => {
     const value = name === "photo" ? e.target.files[0] : e.target.value;
     formData.set(name, value);
-    setValues({ ...values, [name]: value });
+    setValues({ ...values, error: false, [name]: value });
   };
 
   const clickSubmit = (e) => {
@@ -75,8 +75,10 @@ const AddProduct = () => {
           photo: "",
           price: "",
           quantity: "",
+          error: "",
           loading: false,
           createdProduct: data.name,
+          formData: new FormData(),
         });
       }
     });
@@ -193,10 +195,10 @@ const AddProduct = () => {
     >
       <div className="row">
         <div className="col-md-8 offset-md-2">
-          {newPostForm()}
           {showLoading()}
           {showSuccess()}
           {showError()}
+          {newPostForm()}
         </div>
       </div>
     </Layout>
