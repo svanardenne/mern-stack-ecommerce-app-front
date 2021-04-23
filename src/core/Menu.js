@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import { signout, isAuthenticated } from "../auth/index";
 
+// Styled Components
 const NavLink = styled(Link)`
   :hover {
     border-radius: 0px;
@@ -27,6 +28,16 @@ const Menu = ({ history }) => (
       <li className="nav-item">
         <NavLink className="nav-link" style={isActive(history, "/")} to="/">
           Home
+        </NavLink>
+      </li>
+
+      <li className="nav-item">
+        <NavLink
+          className="nav-link"
+          style={isActive(history, "/shop")}
+          to="/shop"
+        >
+          Shop
         </NavLink>
       </li>
 
