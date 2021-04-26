@@ -14,7 +14,7 @@ const Shop = () => {
   const [error, setError] = useState(false);
   const [limit, setLimit] = useState(6);
   const [skip, setSkip] = useState(0);
-  const [filteredResults, setFilteredResults] = useState();
+  const [filteredResults, setFilteredResults] = useState([]);
 
   // Load categories
   const init = () => {
@@ -33,7 +33,7 @@ const Shop = () => {
       if (data.error) {
         setError(data.error);
       } else {
-        setFilteredResults(data);
+        setFilteredResults(data.data);
       }
     });
   };
@@ -94,7 +94,16 @@ const Shop = () => {
             />
           </div>
         </div>
-        <div className="col-8">{JSON.stringify(filteredResults)}</div>
+        <div className="col-8">
+          <h2 className="mb-4">Products</h2>
+          <div className="row">
+            {filteredResults.map((product, i) => (
+              <div key={i} className="col-6 mb-3">
+                <Card product={product} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </Layout>
   );
