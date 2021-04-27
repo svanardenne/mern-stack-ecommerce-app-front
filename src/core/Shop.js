@@ -114,7 +114,7 @@ const Shop = () => {
             />
           </ul>
 
-          <h4>Flter by price range</h4>
+          <h4>Filter by price range</h4>
           <div>
             <RadioBox
               handleFilters={(filters) => handleFilters(filters, "price")}
