@@ -51,11 +51,8 @@ const Shop = () => {
       } else {
         setFilteredResults([...filteredResults, ...data.data]);
         setSize(data.size);
-        if (data.size >= limit) {
-          setSkip(toSkip);
-        } else {
-          setSkip(0);
-        }
+        setSkip(toSkip);
+        setSkip(0);
       }
     });
   };
