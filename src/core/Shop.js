@@ -29,7 +29,7 @@ const Shop = () => {
   };
 
   // loads results from filters and sets filtered results state
-  const loadFilteredResults = (newFilters) => {
+  const loadFilteredResults = (skip, limit, newFilters) => {
     // console.log(newFilters);
     getFilteredProducts(skip, limit, newFilters).then((data) => {
       if (data.error) {
@@ -81,7 +81,7 @@ const Shop = () => {
       let priceValues = handlePrice(filters);
       newFilters.filters[filterBy] = priceValues;
     }
-    loadFilteredResults(myFilters.filters);
+    loadFilteredResults(0, limit, myFilters.filters);
     setMyFilters(newFilters);
   };
 
