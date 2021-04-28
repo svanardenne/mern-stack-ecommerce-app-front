@@ -9,7 +9,7 @@ const Button = styled.button`
 
 const Card = ({ product }) => {
   return (
-    <div className="col--12 col-md-6 col-xl-4 mb-3">
+    <div className="col-12 col-md-6 col-xl-4 mb-3">
       <div className="card">
         <div className="card-header">{product.name}</div>
         <div className="card-body">

@@ -50,8 +50,8 @@ const AdminDashboard = () => {
       className="container-fluid"
     >
       <div className="row">
-        <div className="col-3">{adminLinks()}</div>
-        <div className="col-9">{adminInfo()}</div>
+        <div className="col-lg-3">{adminLinks()}</div>
+        <div className="col-lg-9">{adminInfo()}</div>
       </div>
     </Layout>
   );
