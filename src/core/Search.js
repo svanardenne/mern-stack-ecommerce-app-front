@@ -54,13 +54,26 @@ const Search = () => {
     setData({ ...data, [name]: e.target.value, searched: false });
   };
 
+  // Creates content of search message
+  const searchMessage = (searched, results) => {
+    if (searched && results.length > 0) {
+      return `Found ${results.length} products`;
+    }
+    if (searched && results.length < 1) {
+      return `No products found`;
+    }
+  };
+
   // Creates product cards based on search results
   const searchedProducts = (results = []) => {
     return (
-      <div className="row">
-        {results.map((product, i) => (
-          <Card key={i} product={product} />
-        ))}
+      <div>
+        <h2 className="mt-4 mb-4">{searchMessage(searched, results)}</h2>
+        <div className="row">
+          {results.map((product, i) => (
+            <Card key={i} product={product} />
+          ))}
+        </div>
       </div>
     );
   };
@@ -76,7 +89,7 @@ const Search = () => {
               className="btn mr-2"
               onChange={handleChange("category")}
             >
-              <option value="All">Pick Category</option>
+              <option value="All">All</option>
               {categories.map((c, i) => (
                 <option key={i} value={c._id}>
                   {c.name}
