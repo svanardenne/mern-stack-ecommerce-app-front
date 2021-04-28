@@ -17,6 +17,9 @@ const Gradient = keyframes`
   }
 `;
 const Jumbotron = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 30wh;
   height: 30vh;
   color: #fff;
@@ -26,14 +29,6 @@ const Jumbotron = styled.div`
   -webkit-animation: ${Gradient} 15s ease infinite;
   -moz-animation: ${Gradient} 15s ease infinite;
   animation: ${Gradient} 15s ease infinite;
-  h2 {
-    margin-top: -20px;
-  }
-  @media only screen and (max-width: 575px) {
-    h2 {
-      margin-top: 10px;
-    }
-  }
 `;
 
 const Layout = ({
@@ -45,8 +40,10 @@ const Layout = ({
   <div>
     <Menu />
     <Jumbotron className="jumbotron">
-      <h2>{title}</h2>
-      <p className="lead">{description}</p>
+      <div>
+        <h2>{title}</h2>
+        <p className="lead">{description}</p>
+      </div>
     </Jumbotron>
     <div className={className}>{children}</div>
   </div>
