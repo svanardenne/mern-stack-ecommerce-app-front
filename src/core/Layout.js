@@ -20,7 +20,6 @@ const Jumbotron = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 30wh;
   height: 30vh;
   color: #fff;
   border-radius: 0px;
