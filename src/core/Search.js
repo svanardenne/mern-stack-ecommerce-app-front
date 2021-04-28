@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getCategories } from "./apiCore";
+import { getCategories, list } from "./apiCore";
 import Card from "./Card";
 
 const Search = () => {
@@ -14,34 +14,68 @@ const Search = () => {
   // Destructure state
   const { categories, category, search, results, searched } = data;
 
+  // loads categories returned from getCategories
   const loadCategories = () => {
-    getCategories().then((data) => {
-      if (data.error) {
-        console.log(data.error);
+    getCategories().then((res) => {
+      if (res.error) {
+        console.log(res.error);
       } else {
-        setData({ ...data, categories: data });
+        setData({ ...data, categories: res });
       }
     });
   };
 
+  // load categories on page load
   useEffect(() => {
     loadCategories();
   }, []);
 
-  const searchSubmit = () => {
-    //
+  const searchData = () => {
+    // console.log(search, category);
+    if (search) {
+      list({ search: search || undefined, category: category }).then((res) => {
+        if (res.error) {
+          console.log(res.error);
+        } else {
+          setData({ ...data, results: res, searched: true });
+        }
+      });
+    }
   };
 
-  const handleChange = () => {
-    //
+  // searches for data on search submit
+  const searchSubmit = (e) => {
+    e.preventDefault();
+    searchData();
   };
 
+  // change handler for inputs
+  const handleChange = (name) => (e) => {
+    setData({ ...data, [name]: e.target.value, searched: false });
+  };
+
+  // Creates product cards based on search results
+  const searchedProducts = (results = []) => {
+    return (
+      <div className="row">
+        {results.map((product, i) => (
+          <Card key={i} product={product} />
+        ))}
+      </div>
+    );
+  };
+
+  // Returns search form
   const searchForm = () => (
     <form onSubmit={searchSubmit}>
       <span className="input-group-text">
         <div className="input-group input-group-lg">
           <div className="input-group-prepend">
-            <select className="btn mr-2" onChange={handleChange("category")}>
+            <select
+              value={category}
+              className="btn mr-2"
+              onChange={handleChange("category")}
+            >
               <option value="All">Pick Category</option>
               {categories.map((c, i) => (
                 <option key={i} value={c._id}>
@@ -66,7 +100,8 @@ const Search = () => {
 
   return (
     <div className="row">
-      <div className="container">{searchForm()}</div>
+      <div className="container mb-3">{searchForm()}</div>
+      <div className="container-fluid mb-3">{searchedProducts(results)}</div>
     </div>
   );
 };
