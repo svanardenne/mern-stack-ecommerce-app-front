@@ -7,24 +7,28 @@ const Button = styled.button`
   border-radius: 0px;
 `;
 
-const Card = ({ product }) => {
+const Card = ({ product, showViewProductButton = true }) => {
+  // logic for rendering view project button
+  const showViewButton = (showViewProductButton) =>
+    showViewProductButton && (
+      <Button className="btn btn-outline-primary mt-2 mb-2 mr-2">
+        View Product
+      </Button>
+    );
+
   return (
-    <div className="col-12 col-md-6 col-xl-4 mb-3">
-      <div className="card">
-        <div className="card-header">{product.name}</div>
-        <div className="card-body">
-          <ShowImage item={product} url="product" />
-          <p>{product.description.substring(0, 100)}</p>
-          <p>${product.price}</p>
-          <Link to={`/product/${product._id}`}>
-            <Button className="btn btn-outline-primary mt-2 mb-2 mr-2">
-              View Product
-            </Button>
-          </Link>
-          <Button className="btn btn-outline-warning mt-2 mb-2">
-            Add to Card
-          </Button>
-        </div>
+    <div className="card">
+      <div className="card-header">{product.name}</div>
+      <div className="card-body">
+        <ShowImage item={product} url="product" />
+        <p>{product.description.substring(0, 100)}</p>
+        <p>${product.price}</p>
+        <Link to={`/product/${product._id}`}>
+          {showViewButton(showViewProductButton)}
+        </Link>
+        <Button className="btn btn-outline-warning mt-2 mb-2">
+          Add to Cart
+        </Button>
       </div>
     </div>
   );
