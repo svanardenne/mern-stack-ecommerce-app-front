@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
-import { signout, isAuthenticated } from "../auth/index";
+import { signout, isAuthenticated } from "../auth/";
+import { itemTotal } from "./cartHelpers";
 
 // Styled Components
 const NavLink = styled(Link)`
@@ -21,6 +22,13 @@ const isActive = (history, path) => {
     return { color: "#ffffff" };
   }
 };
+const CartBadge = styled.small`
+  border-radius: 50%;
+  padding: 2px 5px 2px 5px;
+  font-size: 12px;
+  font-style: italic;
+  background: #000;
+`;
 
 const Menu = ({ history }) => (
   <div>
@@ -38,6 +46,19 @@ const Menu = ({ history }) => (
           to="/shop"
         >
           Shop
+        </NavLink>
+      </li>
+
+      <li className="nav-item">
+        <NavLink
+          className="nav-link"
+          style={isActive(history, "/cart")}
+          to="/cart"
+        >
+          Cart{" "}
+          <sup>
+            <CartBadge className="cart-badge">{itemTotal()}</CartBadge>
+          </sup>
         </NavLink>
       </li>
 
