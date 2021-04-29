@@ -8,6 +8,12 @@ const Button = styled.button`
   border-radius: 0px;
 `;
 
+const CardHeader = styled.div`
+  background: indigo;
+  color: #fff;
+  font-weight: bold;
+`;
+
 const Card = ({ product, showViewProductButton = true }) => {
   // logic for rendering view project button
   const showViewButton = (showViewProductButton) => {
@@ -38,12 +44,12 @@ const Card = ({ product, showViewProductButton = true }) => {
 
   return (
     <div className="card">
-      <div className="card-header">{product.name}</div>
+      <CardHeader className="card-header">{product.name}</CardHeader>
       <div className="card-body">
         <ShowImage item={product} url="product" />
         <p className="lead mt-2">{product.description.substring(0, 100)}</p>
-        <p className="black-9">${product.price}</p>
-        <p className="black-8">
+        <p className="black-10">${product.price}</p>
+        <p className="black-9">
           Category: {product.category && product.category.name}
         </p>
         <p className="black-8">Added {moment(product.createdAt).fromNow()}</p>
