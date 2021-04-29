@@ -68,3 +68,14 @@ export const read = (productId) => {
     })
     .catch((err) => console.log(err));
 };
+
+// Lists related products
+export const listRelated = (productId) => {
+  return fetch(`${API}/products/related/${productId}`, {
+    method: "GET",
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
