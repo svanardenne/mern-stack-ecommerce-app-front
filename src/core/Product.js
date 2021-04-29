@@ -40,7 +40,7 @@ const Product = (props) => {
         related.style.marginTop = "0";
       }
     });
-  }, []);
+  }, [props]);
 
   return (
     <Layout
