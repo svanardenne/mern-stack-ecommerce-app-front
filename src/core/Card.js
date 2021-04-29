@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 import ShowImage from "./ShowImage";
+import { addItem } from "./cartHelpers";
 
 const Button = styled.button`
   border-radius: 0px;
@@ -15,6 +17,8 @@ const CardHeader = styled.div`
 `;
 
 const Card = ({ history, product, showViewProductButton = true }) => {
+  const [redirect, setRedirect] = useState(false);
+
   const viewProductBehavior = (e) => {
     if (e.target.classList.contains("view-product")) {
       window.scrollTo(0, 0);
@@ -37,9 +41,23 @@ const Card = ({ history, product, showViewProductButton = true }) => {
     );
   };
 
+  const addToCart = () => {
+    addItem(product, () => {
+      setRedirect(true);
+    });
+  };
+
+  const shouldRedirect = (redirect) => {
+    if (redirect) {
+      return <Redirect to="/cart" />;
+    }
+  };
+
   const showAddToCartButton = () => {
     return (
-      <Button className="btn btn-outline-warning mt-2 mb-2">Add to Cart</Button>
+      <Button onClick={addToCart} className="btn btn-outline-warning mt-2 mb-2">
+        Add to Cart
+      </Button>
     );
   };
 
@@ -55,6 +73,7 @@ const Card = ({ history, product, showViewProductButton = true }) => {
     <div className="card">
       <CardHeader className="card-header">{product.name}</CardHeader>
       <div className="card-body">
+        {shouldRedirect(redirect)}
         <ShowImage item={product} url="product" />
         <p className="lead mt-2">{product.description.substring(0, 100)}</p>
         <p className="black-10">${product.price}</p>
