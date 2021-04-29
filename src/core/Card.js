@@ -10,14 +10,31 @@ const Button = styled.button`
 
 const Card = ({ product, showViewProductButton = true }) => {
   // logic for rendering view project button
-  const showViewButton = (showViewProductButton) =>
-    showViewProductButton && (
-      <Link to={`/product/${product._id}`}>
-        <Button className="btn btn-outline-primary mt-2 mb-2 mr-2">
-          View Product
-        </Button>
-      </Link>
+  const showViewButton = (showViewProductButton) => {
+    return (
+      showViewProductButton && (
+        <Link to={`/product/${product._id}`}>
+          <Button className="btn btn-outline-primary mt-2 mb-2 mr-2">
+            View Product
+          </Button>
+        </Link>
+      )
     );
+  };
+
+  const showAddToCartButton = () => {
+    return (
+      <Button className="btn btn-outline-warning mt-2 mb-2">Add to Cart</Button>
+    );
+  };
+
+  const showStock = (quantity) => {
+    return quantity > 0 ? (
+      <span className="badge badge-primary badge-pill">In Stock</span>
+    ) : (
+      <span className="badge badge-primary badge-pill">Out of Stock</span>
+    );
+  };
 
   return (
     <div className="card">
@@ -30,10 +47,10 @@ const Card = ({ product, showViewProductButton = true }) => {
           Category: {product.category && product.category.name}
         </p>
         <p className="black-8">Added {moment(product.createdAt).fromNow()}</p>
+        {showStock(product.quantity)}
+        <br />
         {showViewButton(showViewProductButton)}
-        <Button className="btn btn-outline-warning mt-2 mb-2">
-          Add to Cart
-        </Button>
+        {showAddToCartButton()}
       </div>
     </div>
   );
