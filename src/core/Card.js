@@ -16,7 +16,6 @@ const CardHeader = styled.div`
 
 const Card = ({ history, product, showViewProductButton = true }) => {
   const viewProductBehavior = (e) => {
-    console.log(e.target);
     if (e.target.classList.contains("view-product")) {
       window.scrollTo(0, 0);
     }
