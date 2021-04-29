@@ -14,13 +14,23 @@ const CardHeader = styled.div`
   font-weight: bold;
 `;
 
-const Card = ({ product, showViewProductButton = true }) => {
+const Card = ({ history, product, showViewProductButton = true }) => {
+  const viewProductBehavior = (e) => {
+    console.log(e.target);
+    if (e.target.classList.contains("view-product")) {
+      window.scrollTo(0, 0);
+    }
+  };
+
   // logic for rendering view project button
   const showViewButton = (showViewProductButton) => {
     return (
       showViewProductButton && (
         <Link to={`/product/${product._id}`}>
-          <Button className="btn btn-outline-primary mt-2 mb-2 mr-2">
+          <Button
+            onClick={viewProductBehavior}
+            className="view-product btn btn-outline-primary mt-2 mb-2 mr-2"
+          >
             View Product
           </Button>
         </Link>
