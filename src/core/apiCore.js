@@ -57,3 +57,14 @@ export const list = (params) => {
     })
     .catch((err) => console.log(err));
 };
+
+// gets and returns a single product
+export const read = (productId) => {
+  return fetch(`${API}/product/${productId}`, {
+    method: "GET",
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
