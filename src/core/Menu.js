@@ -24,7 +24,7 @@ const isActive = (history, path) => {
 };
 const CartBadge = styled.small`
   border-radius: 50%;
-  padding: 2px 5px 2px 5px;
+  padding: 2px 6px 2px 6px;
   font-size: 12px;
   font-style: italic;
   background: #000;

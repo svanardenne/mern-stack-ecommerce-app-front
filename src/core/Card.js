@@ -16,7 +16,12 @@ const CardHeader = styled.div`
   font-weight: bold;
 `;
 
-const Card = ({ history, product, showViewProductButton = true }) => {
+const Card = ({
+  history,
+  product,
+  showViewProductButton = true,
+  showAddToCartButton = true,
+}) => {
   const [redirect, setRedirect] = useState(false);
 
   const viewProductBehavior = (e) => {
@@ -53,11 +58,16 @@ const Card = ({ history, product, showViewProductButton = true }) => {
     }
   };
 
-  const showAddToCartButton = () => {
+  const showAddToCart = (showAddToCartButton) => {
     return (
-      <Button onClick={addToCart} className="btn btn-outline-warning mt-2 mb-2">
-        Add to Cart
-      </Button>
+      showAddToCartButton && (
+        <Button
+          onClick={addToCart}
+          className="btn btn-outline-warning mt-2 mb-2"
+        >
+          Add to Cart
+        </Button>
+      )
     );
   };
 
@@ -84,7 +94,7 @@ const Card = ({ history, product, showViewProductButton = true }) => {
         {showStock(product.quantity)}
         <br />
         {showViewButton(showViewProductButton)}
-        {showAddToCartButton()}
+        {showAddToCart(showAddToCartButton)}
       </div>
     </div>
   );
