@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "./Layout";
-import { getCart } from "./cartHelpers";
+import { getCart, removeItem } from "./cartHelpers";
 import Card from "./Card";
 
 const Cart = () => {
   const [items, setItems] = useState([]);
+  const [run, setRun] = useState(false);
 
   useEffect(() => {
     setItems(getCart());
-  }, []);
+  }, [run]);
 
   const showItems = (items) => {
     return (
@@ -17,7 +18,15 @@ const Cart = () => {
         <h2>Your cart has {`${items.length}`} items</h2>
         <hr />
         {items.map((product, i) => (
-          <Card key={i} product={product} showAddToCartButton={false} />
+          <Card
+            key={i}
+            product={product}
+            showAddToCartButton={false}
+            cartUpdate={true}
+            showRemoveProductButton={true}
+            setRun={setRun}
+            run={run}
+          />
         ))}
       </div>
     );
