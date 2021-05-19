@@ -5,6 +5,7 @@ import { getProducts, getBraintreeClientToken } from "./apiCore";
 import Search from "./Search";
 import Card from "./Card";
 import { isAuthenticated } from "../auth";
+import DropIn from "braintree-web-drop-in-react";
 
 const Checkout = ({ products }) => {
   const [data, setData] = useState({
@@ -44,13 +45,30 @@ const Checkout = ({ products }) => {
   // Conditionally shows checkout button
   const showCheckout = () => {
     return isAuthenticated() ? (
-      <button className="btn btn-success">Checkout</button>
+      <div>{showDropIn()}</div>
     ) : (
       <Link to="/signin">
         <button className="btn btn-primary">Sign in to checkout</button>
       </Link>
     );
   };
+
+  //
+  const showDropIn = () => (
+    <div>
+      {data.clientToken !== null && products.length > 0 ? (
+        <div>
+          <DropIn
+            options={{
+              authorization: data.clientToken,
+            }}
+            onInstance={(instance) => (instance = instance)}
+          />
+          <button className="btn btn-success">Checkout</button>
+        </div>
+      ) : null}
+    </div>
+  );
 
   return (
     <div>
