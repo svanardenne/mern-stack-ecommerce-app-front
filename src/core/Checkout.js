@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "./Layout";
-import { getProducts, getBraintreeClientToken } from "./apiCore";
+import {
+  getProducts,
+  getBraintreeClientToken,
+  processPayment,
+} from "./apiCore";
 import Search from "./Search";
 import Card from "./Card";
 import { isAuthenticated } from "../auth";
@@ -26,7 +30,7 @@ const Checkout = ({ products }) => {
       if (data.error) {
         setData({ ...data, error: data.error });
       } else {
-        setData({ ...data, clientToken: data.clientToken });
+        setData({ clientToken: data.clientToken });
       }
     });
   };
@@ -61,18 +65,30 @@ const Checkout = ({ products }) => {
     let getNonce = data.instance
       .requestPaymentMethod()
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         nonce = data.nonce;
         // once you have nonce (card type, card number) send nonce as
         // 'paymentMethodNonce' and also total to be charged
-        console.log(
-          "send nonce and total to process: ",
-          nonce,
-          getTotal(products)
-        );
+        // console.log(
+        //   "send nonce and total to process: ",
+        //   nonce,
+        //   getTotal(products)
+        // );
+        const paymentData = {
+          paymentMethodNonce: nonce,
+          amount: getTotal(products),
+        };
+        processPayment(userId, token, paymentData)
+          .then((res) => {
+            console.log(res);
+            setData({ ...data, success: res.success });
+            // empty cart
+            // create order
+          })
+          .catch((error) => console.log(error));
       })
       .catch((error) => {
-        console.log("dropin error: ", error);
+        // console.log("dropin error: ", error);
         setData({ ...data, error: error.message });
       });
   };
@@ -89,7 +105,7 @@ const Checkout = ({ products }) => {
             }}
             onInstance={(instance) => (data.instance = instance)}
           />
-          <button onClick={buy} className="btn btn-success">
+          <button onClick={buy} className="btn btn-success btn-block">
             Pay
           </button>
         </div>
@@ -97,6 +113,7 @@ const Checkout = ({ products }) => {
     </div>
   );
 
+  // show error if error
   const showError = (error) => (
     <div
       className="alert alert-danger"
@@ -106,9 +123,20 @@ const Checkout = ({ products }) => {
     </div>
   );
 
+  // shows success message if payment successful
+  const showSuccess = (success) => (
+    <div
+      className="alert alert-info"
+      style={{ display: success ? "" : "none" }}
+    >
+      Thanks! Your payment was successful.
+    </div>
+  );
+
   return (
     <div>
       <h2>Total: ${getTotal()}</h2>
+      {showSuccess(data.success)}
       {showError(data.error)}
       {showCheckout()}
     </div>
