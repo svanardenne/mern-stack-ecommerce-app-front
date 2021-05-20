@@ -19,6 +19,7 @@ const Checkout = ({ products, run, setRun }) => {
     error: "",
     instance: {},
     address: "",
+    loading: false,
   });
 
   // Authentication variables
@@ -60,6 +61,7 @@ const Checkout = ({ products, run, setRun }) => {
 
   // method for generating data to be sent to the back end
   const buy = () => {
+    setData({ loading: true });
     // send the notice to your server
     // nonce = data.instance.rrquestPaymentMethod
     let nonce;
@@ -77,15 +79,19 @@ const Checkout = ({ products, run, setRun }) => {
         processPayment(userId, token, paymentData)
           .then((res) => {
             console.log(res);
-            setData({ ...data, success: res.success });
             // empty cart
             emptyCart(() => {
-              setRun(!run);
               console.log("payment success and empty cart");
+              setRun(!run);
+              setData({ loading: false });
             });
+            setData({ ...data, success: res.success });
             // create order
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            console.log(error);
+            setData({ loading: false });
+          });
       })
       .catch((error) => {
         // console.log("dropin error: ", error);
@@ -136,9 +142,13 @@ const Checkout = ({ products, run, setRun }) => {
     </div>
   );
 
+  // displays loading message
+  const showLoading = (loading) => loading && <h2>Loading...</h2>;
+
   return (
     <div>
       <h2>Total: ${getTotal()}</h2>
+      {showLoading(data.loading)}
       {showSuccess(data.success)}
       {showError(data.error)}
       {showCheckout()}
