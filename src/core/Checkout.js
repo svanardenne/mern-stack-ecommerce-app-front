@@ -6,12 +6,13 @@ import {
   getBraintreeClientToken,
   processPayment,
 } from "./apiCore";
+import { emptyCart } from "./cartHelpers";
 import Search from "./Search";
 import Card from "./Card";
 import { isAuthenticated } from "../auth";
 import DropIn from "braintree-web-drop-in-react";
 
-const Checkout = ({ products }) => {
+const Checkout = ({ products, run, setRun }) => {
   const [data, setData] = useState({
     success: false,
     clientToken: null,
@@ -83,6 +84,10 @@ const Checkout = ({ products }) => {
             console.log(res);
             setData({ ...data, success: res.success });
             // empty cart
+            emptyCart(() => {
+              setRun(!run);
+              console.log("payment success and empty cart");
+            });
             // create order
           })
           .catch((error) => console.log(error));

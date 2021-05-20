@@ -73,3 +73,11 @@ export const removeItem = (productId) => {
   }
   return cart;
 };
+
+// empties the cart in local storage
+export const emptyCart = (next) => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("cart");
+    next();
+  }
+};
