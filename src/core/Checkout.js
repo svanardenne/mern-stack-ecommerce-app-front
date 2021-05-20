@@ -70,11 +70,6 @@ const Checkout = ({ products, run, setRun }) => {
         nonce = data.nonce;
         // once you have nonce (card type, card number) send nonce as
         // 'paymentMethodNonce' and also total to be charged
-        // console.log(
-        //   "send nonce and total to process: ",
-        //   nonce,
-        //   getTotal(products)
-        // );
         const paymentData = {
           paymentMethodNonce: nonce,
           amount: getTotal(products),
@@ -107,6 +102,9 @@ const Checkout = ({ products, run, setRun }) => {
           <DropIn
             options={{
               authorization: data.clientToken,
+              paypal: {
+                flow: "vault",
+              },
             }}
             onInstance={(instance) => (data.instance = instance)}
           />
