@@ -73,9 +73,9 @@ const Checkout = ({ products, run, setRun }) => {
     let nonce;
     let getNonce = data.instance
       .requestPaymentMethod()
-      .then((methodResponse) => {
+      .then((paymentMethodResponse) => {
         // console.log(data);
-        nonce = methodResponse.nonce;
+        nonce = paymentMethodResponse.nonce;
         // once you have nonce (card type, card number) send nonce as
         // 'paymentMethodNonce' and also total to be charged
         const paymentData = {
