@@ -88,7 +88,7 @@ const Checkout = ({ products, run, setRun }) => {
             // create order
             const createOrderData = {
               products: products,
-              transaction_id: processResponse.transaction_id,
+              transaction_id: processResponse.transaction.id,
               amount: processResponse.transaction.amount,
               address: data.address,
             };
