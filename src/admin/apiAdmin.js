@@ -28,6 +28,20 @@ export const getCategories = () => {
     .catch((err) => console.log(err));
 };
 
+export const listOrders = (userId, token) => {
+  return fetch(`${API}/order/list/${userId}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
+
 export const createProduct = (userId, token, product) => {
   return fetch(`${API}/product/create/${userId}`, {
     method: "POST",
