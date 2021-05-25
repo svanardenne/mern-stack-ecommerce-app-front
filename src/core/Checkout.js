@@ -5,6 +5,7 @@ import {
   getProducts,
   getBraintreeClientToken,
   processPayment,
+  createOrder,
 } from "./apiCore";
 import { emptyCart } from "./cartHelpers";
 import Search from "./Search";
@@ -41,6 +42,11 @@ const Checkout = ({ products, run, setRun }) => {
     getToken(userId, token);
   }, []);
 
+  //Handles the address input
+  const handleAddress = (e) => {
+    setData({ ...data, address: e.target.value });
+  };
+
   // Get total price of all products in cart
   const getTotal = () => {
     return products.reduce((currentValue, nextValue) => {
@@ -67,9 +73,9 @@ const Checkout = ({ products, run, setRun }) => {
     let nonce;
     let getNonce = data.instance
       .requestPaymentMethod()
-      .then((data) => {
+      .then((methodResponse) => {
         // console.log(data);
-        nonce = data.nonce;
+        nonce = methodResponse.nonce;
         // once you have nonce (card type, card number) send nonce as
         // 'paymentMethodNonce' and also total to be charged
         const paymentData = {
@@ -77,16 +83,23 @@ const Checkout = ({ products, run, setRun }) => {
           amount: getTotal(products),
         };
         processPayment(userId, token, paymentData)
-          .then((res) => {
-            console.log(res);
+          .then((processResponse) => {
+            console.log(processResponse);
+            // create order
+            const createOrderData = {
+              products: products,
+              transaction_id: processResponse.transaction_id,
+              amount: processResponse.transaction.amount,
+              address: data.address,
+            };
+            createOrder(userId, token, createOrderData);
             // empty cart
             emptyCart(() => {
               console.log("payment success and empty cart");
               setRun(!run);
               setData({ loading: false });
             });
-            setData({ ...data, success: res.success });
-            // create order
+            setData({ ...data, success: processResponse.success });
           })
           .catch((error) => {
             console.log(error);
@@ -105,6 +118,15 @@ const Checkout = ({ products, run, setRun }) => {
     <div onBlur={() => setData({ ...data, error: "" })}>
       {data.clientToken !== null && products.length > 0 ? (
         <div>
+          <div className="form-group mb-3">
+            <label className="text-muted">Delivery address:</label>
+            <textarea
+              onChange={handleAddress}
+              className="form-control"
+              value={data.address}
+              placeholder="Type your delivery address here..."
+            />
+          </div>
           <DropIn
             options={{
               authorization: data.clientToken,

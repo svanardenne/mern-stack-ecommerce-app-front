@@ -112,3 +112,20 @@ export const processPayment = (userId, token, paymentData) => {
     })
     .catch((err) => console.log(err));
 };
+
+// Creates a new order to send to the back end
+export const createOrder = (userId, token, createOrderData) => {
+  return fetch(`${API}/order/create/${userId}`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ order: createOrderData }),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
