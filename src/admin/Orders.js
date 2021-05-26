@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
-import { listOrders, getStatusValues } from "./apiAdmin";
+import { listOrders, getStatusValues, updateOrderStatus } from "./apiAdmin";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
@@ -58,10 +58,19 @@ const Orders = () => {
     </div>
   );
 
+  // Calls the api method to update order status and reloads orders
   const handleStatusChange = (e, orderId) => {
-    console.log("update order status");
+    updateOrderStatus(user._id, token, orderId, e.target.value).then((data) => {
+      if (data.error) {
+        console.log("Status update failed");
+      } else {
+        loadOrders();
+      }
+    });
   };
 
+  // shows a dropdown menu which allows the admin user
+  // to change the status of an order
   const showStatus = (o) => (
     <div className="form-group">
       <h3 className="mark mb-4">Status: {o.status}</h3>
@@ -69,7 +78,7 @@ const Orders = () => {
         className="form-control"
         onChange={(e) => handleStatusChange(e, o._id)}
       >
-        <option>Update Status</option>
+        <option hidden>Update Status</option>
         {statusValues.map((status, index) => (
           <option key={index} value={status}>
             {status}
