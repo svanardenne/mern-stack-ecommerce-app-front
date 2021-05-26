@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../core/Layout";
 import { isAuthenticated } from "../auth";
-import { listOrders } from "./apiAdmin";
+import { listOrders, getStatusValues } from "./apiAdmin";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-
+  const [statusValues, setStatusValues] = useState([]);
   const { user, token } = isAuthenticated();
 
   // Sets orders in state
@@ -21,10 +21,23 @@ const Orders = () => {
     });
   };
 
+  // Calls method to retrieve status values and sets them in state
+  const loadStatusValues = () => {
+    getStatusValues(user._id, token).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setStatusValues(data);
+      }
+    });
+  };
+
   useEffect(() => {
     loadOrders();
+    loadStatusValues();
   }, []);
 
+  // Shows how many orders there are
   const showOrdersLength = () => {
     if (orders.length > 0) {
       return (
@@ -35,12 +48,34 @@ const Orders = () => {
     }
   };
 
+  // shows product info input fields
   const showInput = (key, value) => (
     <div className="input-group mb-2 mr-sm-2">
       <div className="input-group-prepend">
         <div className="input-group-text">{key}</div>
       </div>
       <input type="text" value={value} className="form-control" readOnly />
+    </div>
+  );
+
+  const handleStatusChange = (e, orderId) => {
+    console.log("update order status");
+  };
+
+  const showStatus = (o) => (
+    <div className="form-group">
+      <h3 className="mark mb-4">Status: {o.status}</h3>
+      <select
+        className="form-control"
+        onChange={(e) => handleStatusChange(e, o._id)}
+      >
+        <option>Update Status</option>
+        {statusValues.map((status, index) => (
+          <option key={index} value={status}>
+            {status}
+          </option>
+        ))}
+      </select>
     </div>
   );
 
@@ -63,7 +98,7 @@ const Orders = () => {
                   <span className="bg-primary">Order ID: {o._id}</span>
                 </h2>
                 <ul className="list-group mb-2">
-                  <li className="list-group-item">{o.status}</li>
+                  <li className="list-group-item">{showStatus(o)}</li>
                   <li className="list-group-item">
                     Transaction ID: {o.transaction_id}
                   </li>
