@@ -90,4 +90,65 @@ export const updateOrderStatus = (userId, token, orderId, status) => {
     .catch((err) => console.log(err));
 };
 
+/**
+ * to perform crud on products
+ * get all products
+ * get a single product
+ * update single product
+ * delete single product
+ */
+
+// gets all products
+export const getProducts = () => {
+  return fetch(`${API}/products`, {
+    method: "GET",
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+// gets a single product by id
+export const getProduct = (productId) => {
+  return fetch(`${API}/product/${productId}`, {
+    method: "GET",
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const deleteProduct = (productId, userId, token) => {
+  return fetch(`${API}/product/${productId}/${userId}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const updateProduct = (productId, userId, token, product) => {
+  return fetch(`${API}/product/${productId}/${userId}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: product,
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .catch((err) => console.log(err));
+};
+
 export default createCategory;
