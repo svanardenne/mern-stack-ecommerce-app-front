@@ -25,8 +25,22 @@ const Search = () => {
     });
   };
 
+  const responsiveDropdown = () => {
+    const searchDropdown = document.querySelector(".search-dropdown");
+    window.addEventListener("resize", () => {
+      if (window.innerWidth <= 576) {
+        searchDropdown.classList.remove("input-group-prepend");
+        searchDropdown.classList.add("input-group");
+      } else {
+        searchDropdown.classList.remove("input-group");
+        searchDropdown.classList.add("input-group-prepend");
+      }
+    });
+  };
+
   // load categories on page load
   useEffect(() => {
+    responsiveDropdown();
     loadCategories();
   }, []);
 
@@ -85,7 +99,7 @@ const Search = () => {
     <form onSubmit={searchSubmit}>
       <span className="input-group-text">
         <div className="input-group input-group-lg">
-          <div className="input-group-prepend">
+          <div className="search-dropdown input-group">
             <select
               value={category}
               className="btn mr-2"
