@@ -27,6 +27,13 @@ const Search = () => {
 
   const responsiveDropdown = () => {
     const searchDropdown = document.querySelector(".search-dropdown");
+    if (window.innerWidth <= 576) {
+      searchDropdown.classList.remove("input-group-prepend");
+      searchDropdown.classList.add("input-group");
+    } else {
+      searchDropdown.classList.remove("input-group");
+      searchDropdown.classList.add("input-group-prepend");
+    }
     window.addEventListener("resize", () => {
       if (window.innerWidth <= 576) {
         searchDropdown.classList.remove("input-group-prepend");
@@ -99,7 +106,7 @@ const Search = () => {
     <form onSubmit={searchSubmit}>
       <span className="input-group-text">
         <div className="input-group input-group-lg">
-          <div className="search-dropdown input-group">
+          <div className="search-dropdown input-group-prepend">
             <select
               value={category}
               className="btn mr-2"
