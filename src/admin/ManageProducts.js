@@ -67,6 +67,7 @@ const ManagedProducts = () => {
               </li>
             ))}
           </ul>
+          <br />
         </div>
       </div>
     </Layout>

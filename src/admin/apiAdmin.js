@@ -140,13 +140,12 @@ export const updateProduct = (productId, userId, token, product) => {
     method: "PUT",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: product,
   })
-    .then((res) => {
-      return res.json();
+    .then((response) => {
+      return response.json();
     })
     .catch((err) => console.log(err));
 };
