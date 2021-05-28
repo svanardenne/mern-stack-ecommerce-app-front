@@ -203,7 +203,7 @@ const AddProduct = () => {
       title="Add a new product"
       description={`Hello ${user.name}, ready to add a new product?`}
     >
-      <div className="row">
+      <div className="container-fluid row">
         <div className="col-md-8 offset-md-2">
           {showLoading()}
           {showSuccess()}

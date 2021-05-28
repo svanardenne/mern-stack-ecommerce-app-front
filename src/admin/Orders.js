@@ -4,6 +4,19 @@ import { isAuthenticated } from "../auth";
 import { listOrders, getStatusValues, updateOrderStatus } from "./apiAdmin";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import styled from "styled-components";
+
+// Styled components
+const TotalOrders = styled.h1`
+  @media (max-width: 915px) {
+    font-size: 40px;
+  }
+`;
+const OrderId = styled.span`
+  @media (max-width: 915px) {
+    font-size: 20px;
+  }
+`;
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -41,7 +54,9 @@ const Orders = () => {
   const showOrdersLength = () => {
     if (orders.length > 0) {
       return (
-        <h1 className="text-danger display-2">Total orders: {orders.length}</h1>
+        <TotalOrders className="text-danger display-2">
+          Total orders: {orders.length}
+        </TotalOrders>
       );
     } else {
       return <h1 className="text-danger">No Orders</h1>;
@@ -90,10 +105,11 @@ const Orders = () => {
 
   return (
     <Layout
+      className="d-flex flex-column align-items-center"
       title="Orders"
       description={`Hello ${user.name}, you can manage all the orders here`}
     >
-      <div className="row">
+      <div className="container-fluid row">
         <div className="col-md-8 offset-md-2">
           {showOrdersLength()}
           {orders.map((o, oIndex) => {
@@ -104,7 +120,7 @@ const Orders = () => {
                 style={{ borderBottom: "5px solid indigo" }}
               >
                 <h2 className="mb-5">
-                  <span className="bg-primary">Order ID: {o._id}</span>
+                  <OrderId className="bg-primary">Order ID: {o._id}</OrderId>
                 </h2>
                 <ul className="list-group mb-2">
                   <li className="list-group-item">{showStatus(o)}</li>
