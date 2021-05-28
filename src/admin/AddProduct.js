@@ -75,6 +75,8 @@ const AddProduct = () => {
           photo: "",
           price: "",
           quantity: "",
+          category: "",
+          shipping: "",
           error: "",
           loading: false,
           createdProduct: data.name,
@@ -129,7 +131,11 @@ const AddProduct = () => {
 
       <div className="form-group">
         <label className="text-muted">Category</label>
-        <select onChange={handleChange("category")} className="form-control">
+        <select
+          value={category}
+          onChange={handleChange("category")}
+          className="form-control"
+        >
           <option>Please select</option>
           {categories &&
             categories.map((c, i) => (
@@ -142,7 +148,11 @@ const AddProduct = () => {
 
       <div className="form-group">
         <label className="text-muted">Shipping</label>
-        <select onChange={handleChange("shipping")} className="form-control">
+        <select
+          value={shipping}
+          onChange={handleChange("shipping")}
+          className="form-control"
+        >
           <option>Please select</option>
           <option value="0">No</option>
           <option value="1">Yes</option>
