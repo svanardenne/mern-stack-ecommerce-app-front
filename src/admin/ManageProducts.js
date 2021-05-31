@@ -57,7 +57,11 @@ const ManagedProducts = () => {
                     </span>
                   </Link>
                   <span
-                    onClick={() => destroy(p._id)}
+                    onClick={(e) =>
+                      window.confirm(
+                        "Are you sure you wish to delete this item?"
+                      ) && destroy(p._id)
+                    }
                     className="badge badge-danger badge-pill"
                     style={{ cursor: "pointer" }}
                   >
